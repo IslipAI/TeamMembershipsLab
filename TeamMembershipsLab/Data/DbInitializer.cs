@@ -15,6 +15,11 @@ namespace TeamMembershipsLab.Data
     public static class DbInitializer
     {
         /// <summary>
+        /// Creates AppSecrets instance to get app secrets for user creation.
+        /// </summary>
+        public static AppSecrets AppSecret { get; set; }
+
+        /// <summary>
         /// Method checks if the application has any roles and users. 
         /// </summary>
         /// <param name="serviceProvider">Interface mechanism for retrieving a service object.</param>
@@ -85,7 +90,7 @@ namespace TeamMembershipsLab.Data
                 LastName = "Manager",
                 EmailConfirmed = true
             };
-            var result = await userManager.CreateAsync(managerUser, "Test1234!");
+            var result = await userManager.CreateAsync(managerUser, AppSecret.AdminPass);
             if (!result.Succeeded)
                 return 1;  // should log an error message here
 
@@ -103,7 +108,7 @@ namespace TeamMembershipsLab.Data
                 LastName = "Player",
                 EmailConfirmed = true
             };
-            result = await userManager.CreateAsync(playerUser, "Test1234!");
+            result = await userManager.CreateAsync(playerUser, AppSecret.MemberPass);
             if (!result.Succeeded)
                 return 3;  // should log an error message here
 
